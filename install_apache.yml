@@ -1,10 +1,21 @@
 ---
 # Ekvivalent k prikazu:
 # ansible all -m apt -a "name=apache2 state=latest" --become --ask-become-pass
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass install_apache.yml
 - hosts: all
   become: true
   tasks:
 
+  - name: update repository index
+    apt:
+      update_cache: yes
+
   - name: install apache2 package
     apt:
-      name: apache2
+       name: apache2
+       state: latest
+
+  - name: add php support for apache
+    apt:
+       name: libapache2-mod-php
+       state: latest
