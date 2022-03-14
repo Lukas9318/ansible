@@ -1,2 +1,5 @@
 APT:
  https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+
+Package:
+  https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_module.html

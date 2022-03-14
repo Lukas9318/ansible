@@ -1,0 +1,37 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass tags.yml
+# Vypisanie zadanych tags:       ansible-playbook --list-tags tags.yml
+#                                ansible-playbook --tags debian --ask-become-pass tags.yml
+# Posledny prikaz specifikuje, 'tasks' ktory sa spusti:, tag, ktory obsahuje 'debian' sa spusti 
+# lebo TAGS: DEBIAN, APACHE2
+
+# Definovanie viacerych tags:    ansible-playbook --tags "debian,apache2" --ask-become-pass tags.yml
+
+
+# Zadefinovanie 'tags' do playbooku
+# Skupinu definujeme v 'inventory file'
+
+# Toto chceme spustit na vsetkych serveroch (nejaky Upgrade a Update), co je potrebne pre vsetkych
+# pre_tasks a tasks robi to iste akurat tu specifikujeme, ze nieco bude bezat ako prve
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Updating and Upgrading All
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+# Toto chceme pustit len na skupinu webbing_servers, ktora je definovana v inventory file
+- hosts: webbing_servers
+  become: true
+  tasks:
+
+  - name: Installing on Web Servers
+    tags: debian,apache2
+    apt:
+       name: apache2
+       state: latest
+    when: ansible_distribution in ["Ubuntu", "Debian"]

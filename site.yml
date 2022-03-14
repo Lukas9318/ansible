@@ -1,0 +1,27 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass site.yml
+# Tu budeme specifikovat skupinu pocitacov, na ktoru sa budu aplikovat zmeny
+# Skupinu definujeme v 'inventory file'
+
+# Toto chceme spustit na vsetkych serveroch (nejaky Upgrade a Update), co je potrebne pre vsetkych
+# pre_tasks a tasks robi to iste akurat tu specifikujeme, ze nieco bude bezat ako prve
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Updating and Upgrading All
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+# Toto chceme pustit len na skupinu webbing_servers, ktora je definovana v inventory file
+- hosts: webbing_servers
+  become: true
+  tasks:
+
+  - name: Installing on Web Serbers
+    apt:
+       name: apache2
+       state: latest
+    when: ansible_distribution in ["Ubuntu", "Debian"]

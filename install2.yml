@@ -1,0 +1,16 @@
+---
+# V podstate to iste ako install1.yml ale kratsie napisane
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass install2.yml
+- hosts: all
+  become: true
+  tasks:
+
+## 1. moznost
+  - name: Installing and Updating
+    apt:
+       name:
+         - apache2
+         - libapache2-mod-php
+       state: latest
+       update_cache: yes
+    when: ansible_distribution in ["Ubuntu", "Debian"]

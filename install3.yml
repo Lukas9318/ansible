@@ -1,0 +1,17 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass install_apache.yml
+- hosts: all
+  become: true
+  tasks:
+
+## 2. moznost (variables pridas do inventory file)
+# 'apt' modul sme nahradili 'package' modulom, co je Generic OS package manager
+# 'package' modul pouzije ten spravny install manager pre OS
+# Tento 'package' pouzije pre Ubuntu apt, pre Arch pacman, atd...
+  - name: Installing and Updating
+    package:
+      name:
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
+      state: latest
+      update_cache: yes

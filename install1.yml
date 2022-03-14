@@ -1,7 +1,8 @@
 ---
 # Ekvivalent k prikazu:
 # ansible all -m apt -a "name=apache2 state=latest" --become --ask-become-pass
-# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass install_apache.yml
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass install1.yml
+# To 'all' ukazuje na vsetky PC co su v 'inventory file'
 - hosts: all
   become: true
   tasks:
