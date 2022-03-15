@@ -1,0 +1,29 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass copy_files.yml
+# Skupinu definujeme v 'inventory file'
+
+# Toto chceme spustit na vsetkych serveroch (nejaky Upgrade a Update), co je potrebne pre vsetkych
+# pre_tasks a tasks robi to iste akurat tu specifikujeme, ze nieco bude bezat ako prve
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Updating and Upgrading All
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+# Toto chceme aby sa kopirovalo na webbing_servers, ktora je definovana v inventory file
+- hosts: webbing_servers
+  become: true
+  tasks:
+
+  - name: copy default files on webbing_servers
+    tags: debian, default
+    copy:
+      src: default.txt
+      dest: /home/pi/Desktop/destination
+      owner: pi
+      group: pi
+      mode: 0664
