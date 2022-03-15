@@ -22,6 +22,7 @@
   - name: copy default files on webbing_servers
     tags: debian, default
     copy:
+      # default.txt sa nachadza vo files direcrory, ale to sa nepridava cesta len meno filu
       src: default.txt
       dest: /home/pi/Desktop/destination
       owner: pi

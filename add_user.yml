@@ -1,0 +1,30 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass add_user.yml
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: creating new user
+    tags: always
+    user:
+      name: simone
+      groups: pi
+
+  - name: add ssh key for new user
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJjXJIzOT/pxLZp7XRac7fNn/S1q3h/mcN866k5tP+Sy ansible"
+
+## Pridanie file sudoer_simone do /etc/sudoers.d direcotry sposobi, ze simone user bude moct pouzivat
+## sudo pre prikazmi. BACHA owner a group musia byt root
+  - name: add sudoers file for new user
+    tags: always
+    copy:
+      src: sudoer_simone
+      dest: /etc/sudoers.d/simone
+      owner: root
+      group: root
+      mode: 0440
+

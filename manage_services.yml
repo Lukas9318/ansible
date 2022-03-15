@@ -1,0 +1,27 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook --ask-become-pass manage_services.yml
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: change name in file
+    tags: name, file
+    lineinfile:
+      path: /home/pi/Desktop/destination/names.txt
+      regexp: "^Name"
+      line: Name Peter
+    when: ansible_distribution == "Debian"
+    register: modry_zub
+
+# Ak nastane vo file zmena, tak sa spusti tento play
+  - name: ReStarting bluetooth service
+    tags: debian, bluetooth
+    service:
+      name: bluetooth
+      ## state sice spusti dany service ale po restartovani bude zase vypnuty
+      ## reloaded, restarted, started, stopped,
+      state: restarted
+      ## 'enabled' zabezpeci, ze aj po restartovani bude service bezat
+      #enabled: yes
+    when: modry_zub.changed
