@@ -1,0 +1,5 @@
+  - name: Updating and Upgrading All thanks to ROLES
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Debian"

@@ -1,1 +1,3 @@
 192.168.0.59 apache_package=apache2 php_package=libapache2-mod-php
+# Pre tieto VARIABLES mozme vytvorit aj samostatny directory a ulozit ich tam.
+# Pre viacej informacii ako nato, pozri nejake INFO na nete

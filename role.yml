@@ -1,0 +1,15 @@
+---
+# Tento file spustaj nasledovne: ansible-playbook role.yml
+
+- hosts: all
+  become: true
+  roles:
+    - updating
+
+## Tato cast kodu sa nachadza v roles directory. Tam totiz definujeme
+## tkz. TASKBOOKS, v ktorych zadefinujeme co sa ma uskutocnit.
+#  - name: Updating and Upgrading All
+#    apt:
+#      upgrade: dist
+#      update_cache: yes
+#    when: ansible_distribution == "Debian"
